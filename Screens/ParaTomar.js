@@ -1,59 +1,50 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import HeaderInfo from "../Components/HeaderInfo";
-
-const bebidasItems = [
-  { id: "1", name: "Cerveza Artesanal", price: "$5" },
-  { id: "2", name: "Cocktail Margarita", price: "$8" },
-  { id: "3", name: "Limonada Natural", price: "$4" },
-];
+import MenuDataBebidas from "./Menu/MenuData/MenuDataBebidas";
+import MenuItem from "./Menu/MenuItem/MenuItem";
 
 const ParaTomar = () => {
   return (
     <View style={styles.container}>
-      {/* Componente HeaderInfo con logo, dirección e Instagram */}
+      {/* Encabezado */}
       <HeaderInfo />
 
-        {/* Título*/}
-      <Text style={styles.title}>Para Tomar</Text>
-
-      <FlatList
-        data={bebidasItems}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemPrice}>{item.price}</Text>
+      {/* Contenido desplazable */}
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollViewContent}
+      >
+        {MenuDataBebidas.map((category) => (
+          <View key={category.category}>
+            <Text style={styles.title}>{category.category}</Text>
+            {category.items.map((item) => (
+              <MenuItem key={item.id} name={item.name} price={item.price} />
+            ))}
           </View>
-        )}
-      />
+        ))}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
     flex: 1,
-    padding: 16,
+    backgroundColor: "#d4a5b0",
+  },
+  scrollView: {
+    flexGrow: 1, // Asegura que el ScrollView ocupe todo el espacio disponible
+  },
+  scrollViewContent: {
+    paddingBottom: 20, // Espacio inferior opcional
   },
   title: {
+    color: "black",
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
-  },
-  item: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 8,
-  },
-  itemName: {
-    fontSize: 16,
-  },
-  itemPrice: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "blue",
+    marginVertical: 10,
+    textAlign: "center",
   },
 });
 

@@ -1,38 +1,58 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  View,
+  Platform,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import HeaderInfo from "../Components/HeaderInfo"; // Importa HeaderInfo
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import HeaderInfo from "../Components/HeaderInfo";
 
 const MenuScreen = () => {
   const navigation = useNavigation();
+  const { width } = Dimensions.get("window");
+  const buttonWidth = Platform.OS === "web" ? width * 0.4 : width * 0.7;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Componente HeaderInfo con logo, dirección e Instagram */}
+      {/* Header */}
       <HeaderInfo />
 
-      {/* Título del menú */}
+      {/* Title */}
       <Text style={styles.title}>Menú</Text>
 
+      {/* Buttons */}
       <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("RositaComidas")}
-      >
-        <Text style={styles.buttonText}>Para Comer</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("RositaBebidas")}
-      >
-        <Text style={styles.buttonText}>Para Tomar</Text>
-      </TouchableOpacity>
+  style={[styles.button, { width: buttonWidth }]}
+  onPress={() => navigation.navigate("RositaComidas", { screen: "Comidas" })} // Navega a Comidas
+>
+  <View style={styles.buttonContent}>
+    <MaterialCommunityIcons name="food" color="white" size={30} />
+    <Text style={styles.buttonText}>Para Comer</Text>
+  </View>
+</TouchableOpacity>
+
+<TouchableOpacity
+  style={[styles.button, { width: buttonWidth }]}
+  onPress={() => navigation.navigate("RositaComidas", { screen: "Bebidas" })} // Navega a Bebidas
+>
+  <View style={styles.buttonContent}>
+    <MaterialCommunityIcons name="glass-cocktail" color="white" size={30} />
+    <Text style={styles.buttonText}>Para Tomar</Text>
+  </View>
+</TouchableOpacity>
+
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#2b2b2b",
+    backgroundColor: "#d4a5b0",
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -40,23 +60,27 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
+    color: "#333",
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#333",
   },
   button: {
-    backgroundColor: "#d4a5b0",
+    backgroundColor: "black",
     padding: 15,
     marginVertical: 10,
-    width: "80%",
     alignItems: "center",
     borderRadius: 10,
   },
+  buttonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   buttonText: {
     fontSize: 16,
-    textAlign: "center",
     color: "white",
     fontWeight: "600",
+    marginLeft: 10,
   },
 });
 

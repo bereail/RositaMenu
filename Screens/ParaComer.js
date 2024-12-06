@@ -1,12 +1,8 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import HeaderInfo from "../Components/HeaderInfo";
-
-const comidaItems = [
-  { id: "1", name: "Hamburguesa Gourmet", price: "$12" },
-  { id: "2", name: "Nachos con Queso", price: "$7" },
-  { id: "3", name: "Pizza Margarita", price: "$10" },
-];
+import MenuDataComidas from "./Menu/MenuData/MenuDataComidas";
+import MenuItem from "./Menu/MenuItem/MenuItem";
 
 const ParaComer = () => {
   return (
@@ -14,47 +10,35 @@ const ParaComer = () => {
         {/* Componente HeaderInfo con logo, dirección e Instagram */}
       <HeaderInfo />
 
-        {/* Título */}
-      <Text style={styles.title}>Para Comer</Text>
-
-      <FlatList
-        data={comidaItems}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemPrice}>{item.price}</Text>
+      {/* Contenido desplazable */}
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollViewContent}
+      >
+        {MenuDataComidas.map((category) => (
+          <View key={category.category}>
+            <Text style={styles.title}>{category.category}</Text>
+            {category.items.map((item) => (
+              <MenuItem key={item.id} name={item.name} price={item.price} />
+            ))}
           </View>
-        )}
-      />
+        ))}
+      </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
     flex: 1,
-    padding: 16,
+    backgroundColor: "#d4a5b0",
   },
   title: {
+    color: "black",
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
-  },
-  item: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 8,
-  },
-  itemName: {
-    fontSize: 16,
-  },
-  itemPrice: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "green",
+    marginVertical: 10,
+    textAlign: "center",
   },
 });
-
 export default ParaComer;

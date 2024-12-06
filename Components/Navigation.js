@@ -5,136 +5,44 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Screens
-import HomeScreen from "../Screens/HomeScreen";
-import SettingsScreen from "../Screens/SettingsScreen";
-import StackScreen from "../Screens/StackScreen";
 import MenuScreen from "../Screens/MenuScreen";
 import ParaComer from "../Screens/ParaComer";
 import ParaTomar from "../Screens/ParaTomar";
 
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const HomeStackNavigator = createNativeStackNavigator();
 
-// Stack Navigator for Home
-function MyStack() {
-  return (
-    <HomeStackNavigator.Navigator initialRouteName="HomeScreen">
-      <HomeStackNavigator.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{ title: "Home" }}
-      />
-      <HomeStackNavigator.Screen
-        name="Stack"
-        component={StackScreen}
-        options={{
-          title: "Stack Screen",
-          headerBackTitleVisible: false,
-          headerStyle: { backgroundColor: "purple" },
-          headerTintColor: "#fff",
-          headerTitleStyle: { fontWeight: "bold" },
-        }}
-      />
-            <HomeStackNavigator.Screen
-        name="Menu"
-        component={MenuScreen}
-        options={{
-          title: "Menu Screen",
-          headerBackTitleVisible: false,
-          headerStyle: { backgroundColor: "purple" },
-          headerTintColor: "#fff",
-          headerTitleStyle: { fontWeight: "bold" },
-        }}
-      />
-                  <HomeStackNavigator.Screen
-        name="RositaComidas"
-        component={ParaComer}
-        options={{
-          title: "Comidas",
-          headerBackTitleVisible: false,
-          headerStyle: { backgroundColor: "purple" },
-          headerTintColor: "#fff",
-          headerTitleStyle: { fontWeight: "bold" },
-        }}
-      />
-                  <HomeStackNavigator.Screen
-        name="Bebidas"
-        component={ParaTomar}
-        options={{
-          title: "Bebidas",
-          headerBackTitleVisible: false,
-          headerStyle: { backgroundColor: "purple" },
-          headerTintColor: "#fff",
-          headerTitleStyle: { fontWeight: "bold" },
-        }}
-      />
-    </HomeStackNavigator.Navigator>
-  );
-}
-
-// Bottom Tab Navigator
-function MyTabs() {
+// Tab Navigator for "Para Comer" and "Para Tomar"
+function TabNavigator({ route }) {
+  const { screen } = route.params || {}; // Leer el parámetro 'screen'
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName={screen || "Comidas"} // Por defecto a "Comidas"
       screenOptions={{
-        tabBarActiveBackgroundColor: "purple",
+        tabBarActiveBackgroundColor: "black",
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "gray",
+        tabBarStyle: { backgroundColor: "#f0f0f0" },
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={MyStack}
+        name="Comidas"
+        component={ParaComer}
         options={{
-          tabBarLabel: "Feed",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={30} />
+          tabBarLabel: "Comidas",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="food" color={color} size={30} />
           ),
-          tabBarBadge: 10,
           headerShown: false,
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{
-          tabBarLabel: "Settings",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="cog" color={color} size={30} />
-          ),
-          headerShown: false,
-        }}
-      />
-            <Tab.Screen
-        name="Menu"
-        component={MenuScreen}
-        options={{
-          tabBarLabel: "Menu",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="cog" color={color} size={30} />
-          ),
-          headerShown: false,
-        }}
-      />
-                  <Tab.Screen
-        name="RositaComidas"
-        component={ParaComer}
-        options={{
-          tabBarLabel: "Comidas",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="cog" color={color} size={30} />
-          ),
-          headerShown: false,
-        }}
-      />
-                  <Tab.Screen
-        name="RositaBebidas"
+        name="Bebidas"
         component={ParaTomar}
         options={{
           tabBarLabel: "Bebidas",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="cog" color={color} size={30} />
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="glass-cocktail" color={color} size={30} />
           ),
           headerShown: false,
         }}
@@ -143,10 +51,49 @@ function MyTabs() {
   );
 }
 
+
+// Stack Navigator for the app
+function StackNavigator() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Menu"
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerStyle: { backgroundColor: "black" },
+        headerTintColor: "#fff",
+        headerTitleStyle: { fontWeight: "bold" },
+      }}
+    >
+      <Stack.Screen
+        name="Menu"
+        component={MenuScreen}
+        options={{
+          title: "Menú Principal",
+          headerShown: false, // No header in the main menu
+        }}
+      />
+      <Stack.Screen
+        name="RositaComidas"
+        component={TabNavigator}
+        options={{
+          title: "Menú",
+        }}
+      />
+            <Stack.Screen
+        name="RositaBebidas"
+        component={TabNavigator}
+        options={{
+          title: "Menú",
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <MyTabs />
+      <StackNavigator />
     </NavigationContainer>
   );
 }
