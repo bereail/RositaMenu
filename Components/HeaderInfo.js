@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   logo: {
-    width: Platform.OS === "web" ? width * 0.4 : width * 0.6, // Más grande en la web
+    width: Platform.OS === "web" ? width * 0.4 : width * 0.7, // Más grande en la web
     height: Platform.OS === "web" ? width * 0.16 : width * 0.3, // Proporcional al ancho
     marginBottom: 10,
   },
