@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  ScrollView,
+  FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -17,43 +17,51 @@ const MenuScreen = () => {
   const { width } = Dimensions.get("window");
   const buttonWidth = Platform.OS === "web" ? width * 0.4 : width * 0.7;
 
+  // Datos de los botones
+  const menuItems = [
+    { id: "1", name: "Para Comer", icon: "food", screen: "Comidas" },
+    { id: "2", name: "Para Tomar", icon: "glass-cocktail", screen: "Bebidas" },
+  ];
+
+  // Renderizado de cada elemento
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      style={[styles.button, { width: buttonWidth }]}
+      onPress={() =>
+        navigation.navigate("RositaComidas", { screen: item.screen })
+      } // Navega a la pantalla correspondiente
+    >
+      <View style={styles.buttonContent}>
+        <MaterialCommunityIcons name={item.icon} color="white" size={30} />
+        <Text style={styles.buttonText}>{item.name}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       {/* Header */}
       <HeaderInfo />
 
       {/* Title */}
       <Text style={styles.title}>Menú</Text>
 
-      {/* Buttons */}
-      <TouchableOpacity
-  style={[styles.button, { width: buttonWidth }]}
-  onPress={() => navigation.navigate("RositaComidas", { screen: "Comidas" })} // Navega a Comidas
->
-  <View style={styles.buttonContent}>
-    <MaterialCommunityIcons name="food" color="white" size={30} />
-    <Text style={styles.buttonText}>Para Comer</Text>
-  </View>
-</TouchableOpacity>
-
-<TouchableOpacity
-  style={[styles.button, { width: buttonWidth }]}
-  onPress={() => navigation.navigate("RositaComidas", { screen: "Bebidas" })} // Navega a Bebidas
->
-  <View style={styles.buttonContent}>
-    <MaterialCommunityIcons name="glass-cocktail" color="white" size={30} />
-    <Text style={styles.buttonText}>Para Tomar</Text>
-  </View>
-</TouchableOpacity>
-
-    </ScrollView>
+      {/* Lista de botones */}
+      <FlatList
+        data={menuItems}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        contentContainerStyle={styles.listContainer}
+        showsVerticalScrollIndicator={false} // Oculta el indicador de scroll vertical
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#d4a5b0",
-    flexGrow: 1,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
@@ -63,6 +71,9 @@ const styles = StyleSheet.create({
     color: "#333",
     fontWeight: "bold",
     marginBottom: 20,
+  },
+  listContainer: {
+    alignItems: "center", // Centra los botones horizontalmente
   },
   button: {
     backgroundColor: "black",

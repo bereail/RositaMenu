@@ -18,7 +18,7 @@ const ParaTomar = () => {
   const dynamicFontSize = Math.min(Math.max(width * 0.05 * webScaleFactor, 16), 45);
 
   // Calculamos dinámicamente el margen inferior de las categorías, limitado entre 10px y 30px
-  const dynamicMargin = Math.min(Math.max(height * 0.02 * webScaleFactor, 10), 30);
+  const dynamicMargin = Math.min(Math.max(height * 0.05 * webScaleFactor, 25), 60); // Aumentado
 
   return (
     <View style={styles.container}>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20, // Espacio extra en la parte inferior del contenido
   },
   title: {
-    color: "black", // Color de texto del título
+    color: "#4A4A4A",
     fontWeight: "bold", // Texto en negrita
     textAlign: "center", // Centrado
   },

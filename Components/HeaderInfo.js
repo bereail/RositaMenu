@@ -56,12 +56,18 @@ const HeaderInfo = () => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 55,
     paddingHorizontal: 16,
+    width: "100%",
+    marginTop: Platform.OS === "ios" ? 40 : Platform.OS === "android" ? 120 : 10, // Ajusta según la plataforma
   },
   logo: {
-    width: Platform.OS === "web" ? width * 0.4 : width * 0.7, // Más grande en la web
-    height: Platform.OS === "web" ? width * 0.16 : width * 0.3, // Proporcional al ancho
+    width: width * 0.6, // 60% del ancho de la pantalla
+    height: width * 0.2, // Proporcional al ancho
+    maxWidth: 300, // Máximo 300px
+    maxHeight: 100, // Máximo 100px
+    minWidth: 150, // Mínimo 150px
+    minHeight: 50, // Mínimo 50px
     marginBottom: 10,
   },
   addressContainer: {
@@ -70,7 +76,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   address: {
-    fontSize: Platform.OS === "web" ? 18 : width * 0.04, // Tamaño menor en web
+    fontSize: Math.min(Math.max(width * 0.04, 14), 18), // Tamaño dinámico entre 14 y 18px
     color: "#333",
     marginLeft: 10,
   },
@@ -80,9 +86,10 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   instagram: {
-    fontSize: Platform.OS === "web" ? 18 : width * 0.04, // Tamaño menor en web
+    fontSize: Math.min(Math.max(width * 0.04, 14), 18), // Tamaño dinámico entre 14 y 18px
     marginLeft: 10,
   },
 });
+
 
 export default HeaderInfo;
